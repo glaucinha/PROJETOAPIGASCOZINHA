@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Cliente - Gás de Cozinha</title>
+</head>
+<body>
+    <h2>Cadastro de Cliente</h2>
+
+    <form id="formCliente">
+        <input type="text" placeholder="Nome" id="nome" required><br><br>
+        <input type="email" placeholder="Email" id="email" required><br><br>
+        <input type="password" placeholder="Senha" id="senha" required><br><br>
+
+        <select id="tipo_pessoa">
+            <option value="FISICA">Pessoa Física</option>
+            <option value="JURIDICA">Pessoa Jurídica</option>
+        </select><br><br>
+
+        <input type="text" placeholder="Documento (CPF/CNPJ)" id="documento" required><br><br>
+        <input type="text" placeholder="Telefone" id="telefone" required><br><br>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <p id="mensagem"></p>
+
+    <script>
+        document.getElementById("formCliente").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const cliente = {
+                nome: document.getElementById("nome").value,
+                email: document.getElementById("email").value,
+                senha: document.getElementById("senha").value,
+                tipo_pessoa: document.getElementById("tipo_pessoa").value,
+                documento: document.getElementById("documento").value,
+                telefone: document.getElementById("telefone").value
+            };
+
+            const response = await fetch("http://localhost:3000/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, senha })
+  });
+                
+
+            const data = await response.json();
+            document.getElementById("mensagem").innerText = data.mensagem || data.erro;
+        });
+    </script>
+</body>
+</html>
